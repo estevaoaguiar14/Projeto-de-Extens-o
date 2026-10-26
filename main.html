@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portal ADS - Modern Tech</title>
+<style>
+    :root {
+        --bg-dark: #050814; /* Fundo principal */
+        --bg-panel: rgba(17, 24, 39, 0.7); /* Paineis translúcidos */
+        --primary-cyan: #00f0ff; /* Néon Ciano */
+        --primary-purple: #8a2be2; /* Néon Roxo */
+        --text-light: #f8fafc;
+        --text-muted: #94a3b8;
+        --border-glass: rgba(255, 255, 255, 0.1);
+        --glow-cyan: 0 0 20px rgba(0, 240, 255, 0.3);
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    html {
+        scroll-behavior: smooth; 
+    }
+
+    body {
+        background-color: var(--bg-dark);
+        /* Fundo tecnológico para a página */
+        background-image: 
+            radial-gradient(circle at 50% 0%, rgba(138, 43, 226, 0.15), transparent 50%),
+            linear-gradient(var(--border-glass) 1px, transparent 1px),
+            linear-gradient(90deg, var(--border-glass) 1px, transparent 1px);
+        background-size: 100% 100%, 40px 40px, 40px 40px;
+        background-attachment: fixed;
+        color: var(--text-light);
+        line-height: 1.6;
+        overflow-x: hidden;
+    }
+
+    /* Animações  */
+    .reveal {
+        opacity: 0;
+        transform: translateY(40px);
+        transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+    }
+    .reveal.active {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    /* Cabeçalho */
+    header {
+        background: rgba(5, 8, 20, 0.8);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border-glass);
+        padding: 15px 5%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+
+    .logo {
+        font-weight: 800;
+        font-size: 1.5rem;
+        background: linear-gradient(90deg, var(--primary-cyan), var(--primary-purple));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        letter-spacing: 1px;
+    }
+
+    nav { display: flex; gap: 20px; flex-wrap: wrap; }
+
+    nav a {
+        color: var(--text-muted);
+        text-decoration: none;
+        font-size: 0.9rem;
+        font-weight: 500;
+        transition: all 0.3s;
+        position: relative;
+    }
+
+    nav a::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: -4px;
+        left: 0;
+        background-color: var(--primary-cyan);
+        transition: width 0.3s;
+        box-shadow: var(--glow-cyan);
+    }
+
+    nav a:hover, nav a.active-link { color: var(--text-light); }
+    nav a:hover::after, nav a.active-link::after { width: 100%; }
+
+    /* Secções Gerais */
+    section {
+        padding: 100px 5%;
+        position: relative;
+    }
+
+    .section-title {
+        color: var(--text-light);
+        margin-bottom: 20px;
+        font-size: 2.5rem;
+        text-align: center;
+        font-weight: 700;
+    }
+
+    .section-title span {
+        color: var(--primary-cyan);
+    }
+
+    .section-subtitle {
+        text-align: center;
+        margin-bottom: 50px;
+        color: var(--text-muted);
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+        font-size: 1.1rem;
+    }
+
+    /* Seção Hero */
+    .hero {
+        min-height: 80vh;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 40px;
+        flex-wrap: wrap;
+        padding-top: 120px;
+    }
+
+    .hero-content { flex: 1; min-width: 300px; }
+    
+    .hero-content h3 {
+        color: var(--primary-cyan);
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin-bottom: 15px;
+    }
+
+    .hero-content h1 {
+        font-size: 3.5rem;
+        line-height: 1.1;
+        margin-bottom: 20px;
+        font-weight: 800;
+    }
+
+    .hero-content h2 {
+        font-size: 1.2rem;
+        font-weight: 400;
+        color: var(--text-muted);
+        margin-bottom: 25px;
+    }
+
+    .btn-group { display: flex; gap: 20px; flex-wrap: wrap; margin-top: 30px; }
+
+    .btn {
+        padding: 14px 28px;
+        border-radius: 6px;
+        font-weight: 600;
+        text-decoration: none;
+        font-size: 0.95rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-align: center;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .btn-primary { 
+        background: var(--primary-cyan); 
+        color: var(--bg-dark); 
+        box-shadow: var(--glow-cyan);
+    }
+    .btn-primary:hover { 
+        background: #fff; 
+        box-shadow: 0 0 30px rgba(255,255,255,0.5);
+    }
+    
+    .btn-outline { 
+        background: transparent; 
+        color: var(--primary-cyan); 
+        border: 1px solid var(--primary-cyan); 
+    }
+    .btn-outline:hover { 
+        background: rgba(0, 240, 255, 0.1);
+        box-shadow: var(--glow-cyan);
+    }
+
+    /* Mockup Tecnológico */
+    .hero-image { flex: 1; min-width: 300px; display: flex; justify-content: center; }
+    .mockup-laptop {
+        width: 100%;
+        max-width: 450px;
+        height: 280px;
+        background: rgba(10, 15, 30, 0.8);
+        border: 1px solid var(--border-glass);
+        border-top: 1px solid var(--primary-purple);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.5), inset 0 0 20px rgba(138, 43, 226, 0.1);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    /* Efeito de brilho animado */
+    .mockup-laptop::before {
+        content: '';
+        position: absolute;
+        top: -50%; left: -50%; width: 200%; height: 200%;
+        background: conic-gradient(transparent, transparent, transparent, var(--primary-cyan));
+        animation: rotateGlow 4s linear infinite;
+        opacity: 0.1;
+    }
+    @keyframes rotateGlow { 100% { transform: rotate(360deg); } }
+
+    .mockup-laptop span { 
+        font-size: 5rem; 
+        color: var(--primary-cyan); 
+        font-family: 'Courier New', Courier, monospace;
+        text-shadow: var(--glow-cyan);
+        z-index: 1;
+    }
+
+    /* Grades e Cards estilo Glassmorphism */
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 25px;
+    }
+
+    .card {
+        background: var(--bg-panel);
+        backdrop-filter: blur(10px);
+        padding: 30px;
+        border-radius: 12px;
+        border: 1px solid var(--border-glass);
+        transition: all 0.4s ease;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    /* Linha colorida no topo do card */
+    .card::before {
+        content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px;
+        background: linear-gradient(90deg, var(--primary-cyan), transparent);
+        opacity: 0; transition: opacity 0.4s;
+    }
+
+    .card:hover { 
+        transform: translateY(-10px); 
+        border-color: rgba(0, 240, 255, 0.3);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), var(--glow-cyan); 
+    }
+    .card:hover::before { opacity: 1; }
+
+    .card-icon {
+        width: 60px; height: 60px;
+        background: rgba(0, 240, 255, 0.1);
+        border: 1px solid rgba(0, 240, 255, 0.2);
+        border-radius: 10px;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 1.8rem; margin-bottom: 20px;
+    }
+
+    .card h4 { color: var(--text-light); margin-bottom: 15px; font-size: 1.25rem; font-weight: 600; }
+    .card p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 20px; }
+    
+    .card a { 
+        color: var(--primary-cyan); text-decoration: none; font-weight: 600; 
+        font-size: 0.9rem; display: inline-flex; align-items: center; gap: 5px;
+        transition: 0.3s;
+    }
+    .card a:hover { color: #fff; gap: 10px; }
+
+    /* Listas numeradas (5 Passos) */
+    .step-list { list-style: none; counter-reset: tech-counter; }
+    .step-list li {
+        position: relative;
+        padding-left: 60px;
+        margin-bottom: 30px;
+        background: rgba(255,255,255,0.02);
+        padding-right: 20px; padding-top: 15px; padding-bottom: 15px;
+        border-radius: 8px;
+        border: 1px solid transparent;
+        transition: border 0.3s;
+    }
+    .step-list li:hover { border-color: rgba(138, 43, 226, 0.3); }
+    
+    .step-list li::before {
+        content: counter(tech-counter);
+        counter-increment: tech-counter;
+        position: absolute; left: 10px; top: 15px;
+        width: 35px; height: 35px;
+        background: rgba(138, 43, 226, 0.2);
+        color: var(--primary-cyan);
+        border: 1px solid var(--primary-purple);
+        font-weight: bold; border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        box-shadow: 0 0 10px rgba(138, 43, 226, 0.3);
+    }
+    .step-list li strong { color: var(--text-light); display: block; margin-bottom: 5px; font-size: 1.1rem;}
+    .step-list li span { color: var(--text-muted); font-size: 0.9rem; }
+
+    /* Tabela Tecnológica */
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; background: rgba(0,0,0,0.2); border-radius: 8px; overflow: hidden; }
+    th, td { padding: 15px; text-align: left; border-bottom: 1px solid var(--border-glass); }
+    th { background-color: rgba(138, 43, 226, 0.15); color: var(--primary-cyan); font-weight: 600; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; }
+    tr:hover td { background-color: rgba(255,255,255,0.03); color: white; }
+    
+    /* Footer */
+    footer {
+        background-color: rgba(0,0,0,0.8);
+        border-top: 1px solid var(--border-glass);
+        color: var(--text-muted);
+        text-align: center; padding: 30px 20px; font-size: 0.9rem;
+    }
+
+</style>
+</head>
+<body>
+
+    <!-- CABEÇALHO -->
+    <header>
+        <div class="logo">PORTAL_ADS</div>
+        <nav id="navbar">
+            <a href="#inicio" class="nav-link">Início</a>
+            <a href="#comecar" class="nav-link">Por onde começar</a>
+            <a href="#cursos" class="nav-link">Cursos gratuitos</a>
+            <a href="#carreiras" class="nav-link">Carreiras em TI</a>
+            <a href="#oportunidade" class="nav-link">Primeira oportunidade</a>
+            <a href="#sobre" class="nav-link">Sobre o projeto</a>
+        </nav>
+    </header>
+
+    <!-- INÍCIO -->
+    <section id="inicio" class="hero reveal">
+        <div class="hero-content">
+            <h3>&gt;_ Sistema Iniciado</h3>
+            <h1>Carreiras e Oportunidades<br>em <span style="color: var(--primary-purple);">Tecnologia</span></h1>
+            <h2>Descubra seu caminho na Tecnologia da Informação.</h2>
+            <p style="color: var(--text-muted); font-size: 1rem; max-width: 500px;">Você tem interesse em tecnologia, mas não sabe por onde começar? Este portal reúne orientações, cursos gratuitos, informações sobre carreiras e recursos para ajudar você a dar os primeiros passos na área de TI.</p>
+            <div class="btn-group">
+                <a href="#comecar" class="btn btn-primary">Inicializar Jornada</a>
+                <a href="#cursos" class="btn btn-outline">Explorar Cursos</a>
+            </div>
+        </div>
+        <div class="hero-image">
+            <div class="mockup-laptop"><span>&lt;/&gt;</span></div>
+        </div>
+    </section>
+
+    <!-- EXPLORE (Atalhos) -->
+    <section id="explore" class="reveal">
+        <h2 class="section-title">Explore os <span>Módulos</span></h2>
+        <div class="grid">
+            <div class="card">
+                <div class="card-icon">🎯</div>
+                <h4>Por onde começar?</h4>
+                <p>Conheça os primeiros passos para aprender tecnologia, mesmo sem experiência.</p>
+                <a href="#comecar">Acessar Módulo &rarr;</a>
+            </div>
+            <div class="card">
+                <div class="card-icon">🚀</div>
+                <h4>Cursos gratuitos</h4>
+                <p>Encontre recursos de aprendizagem para desenvolver novas habilidades.</p>
+                <a href="#cursos">Acessar Módulo &rarr;</a>
+            </div>
+            <div class="card">
+                <div class="card-icon">💻</div>
+                <h4>Carreiras em TI</h4>
+                <p>Descubra diferentes profissões e áreas de atuação em tecnologia.</p>
+                <a href="#carreiras">Acessar Módulo &rarr;</a>
+            </div>
+            <div class="card">
+                <div class="card-icon">⚡</div>
+                <h4>Primeira oportunidade</h4>
+                <p>Aprenda como organizar seus estudos e buscar oportunidades no mercado.</p>
+                <a href="#oportunidade">Acessar Módulo &rarr;</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- POR ONDE COMEÇAR -->
+    <section id="comecar" class="reveal" style="background: rgba(255,255,255,0.01);">
+        <h2 class="section-title">Inicie a <span>sua jornada</span></h2>
+        <p class="section-subtitle">Começar a estudar TI pode parecer complexo diante de tantas linguagens e ferramentas. Este roteiro tem como objetivo guiar você em seus primeiros passos de forma simples e objetiva.</p>
+        
+        <div style="display: flex; flex-wrap: wrap; gap: 50px;">
+            <div style="flex: 1; min-width: 300px;">
+                <h3 style="margin-bottom: 25px; color: white; font-size: 1.4rem;">5 passos para iniciar sua jornada</h3>
+                <ul class="step-list">
+                    <li><strong>Aprenda os fundamentos digitais</strong><span>É importante se familiarizar com o computador. Você deve aprender a manipular arquivos, pastas e sistemas.</span></li>
+                    <li><strong>Conheça a lógica de programação</strong><span> Aprenda a pensar como um programador e domine a arte de decompor problemas, interpretar, organizar e estruturar algoritmos.</span></li>
+                    <li><strong>Explore diferentes áreas</strong><span>A área de tecnologia da informação é muito vasta. Conheça desenvolvimento de aplicações, dados, redes, cloud e segurança da informação.</span></li>
+                    <li><strong>Escolha um caminho inicial</strong><span>Após conhecer um pouco sobre as diversas áreas no mundo da tecnologia é importante escolher aquela em que você mais se identifica.</span></li>
+                    <li><strong>Pratique e faça projetos</strong><span>Resolva exercícios, crie projetos e documente a sua evolução. Essa é uma etapa crucial em sua jornada.</span></li>
+                </ul>
+            </div>
+            <div style="flex: 1; min-width: 300px;">
+                <h3 style="margin-bottom: 25px; color: white; font-size: 1.4rem;">Roteiro de Compilação</h3>
+                <table>
+                    <tr><th>Index</th><th>Conteúdo Estrutural</th></tr>
+                    <tr><td>01</td><td>Fundamentos de hardware e internet</td></tr>
+                    <tr><td>02</td><td>Lógica de programação e algoritmos</td></tr>
+                    <tr><td>03</td><td>Introdução a uma vertente de TI</td></tr>
+                    <tr><td>04</td><td>Desenvolvimento do primeiro projeto</td></tr>
+                    <tr><td>05</td><td>Versionamento e registro (Git/GitHub)</td></tr>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- CURSOS GRATUITOS -->
+    <section id="cursos" class="reveal">
+        <h2 class="section-title">Aprenda tecnologia <span>de forma gratuita</span></h2>
+        <p class="section-subtitle">Existem plataformas educacionais que disponibilizam cursos e materiais online e de forma gratuita para quem deseja aprender novas habilidades. Nesta seção, você encontra algumas das diversas opções para adquirir conhecimento sobre programação, tecnologia, redes e desenvolvimento profissional</p>
+        
+        <div class="grid">
+            <div class="card">
+                <h4>Fundação Bradesco – Escola Virtual</h4>
+                <p>Oferece cursos livres on-line e gratuitos, incluindo opções de programação e Tecnologia da Informação.</p>
+                <a href="https://www.ev.org.br/" target="_blank">Acessar servidor &rarr;</a>
+            </div>
+            <div class="card">
+                <h4>Microsoft Learn</h4>
+                <p>Reúne módulos e trilhas de aprendizagem on-line, com conteúdos de desenvolvimento e arquitetura Cloud.</p>
+                <a href="https://learn.microsoft.com/pt-br/" target="_blank">Explorar documentação &rarr;</a>
+            </div>
+            <div class="card">
+                <h4>Cisco Networking Academy</h4>
+                <p>Oferece conteúdos avançados sobre redes, cibersegurança, IoT e outras áreas tecnológicas estruturais.</p>
+                <a href="https://www.netacad.com/pt-br" target="_blank">Consultar rede &rarr;</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CARREIRAS EM TI -->
+    <section id="carreiras" class="reveal" style="background: rgba(255,255,255,0.01);">
+        <h2 class="section-title">Defina a sua <span>carreira</span></h2>
+        <p class="section-subtitle">A Tecnologia da Informação reúne profissionais com funções diferentes. Conheça algumas das áreas de atuação e identifique o perfil que melhor combina com você.</p>
+        
+        <div class="grid">
+            <div class="card">
+                <div class="card-icon">&lt;/&gt;</div>
+                <h4>Engenharia de Software</h4>
+                <p>Cria, testa e mantém programas e aplicações web/mobile. <strong>Requisito:</strong> Lógica e linguagens de programação.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">📊</div>
+                <h4>Ciência & Análise de Dados</h4>
+                <p>Coleta, organiza e processa big data. <strong>Requisito:</strong> Estatística básica, Python, R, e bases SQL/NoSQL.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">☁️</div>
+                <h4>Infraestrutura e Cloud</h4>
+                <p>Gerencia servidores, redes e ambientes na nuvem. <strong>Requisito:</strong> Sistemas operacionais (Linux/Windows) e redes.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">🔐</div>
+                <h4>Cibersegurança</h4>
+                <p>Protege sistemas, dados criptografados e previne ataques. <strong>Requisito:</strong> Redes avançadas e ethical hacking.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRIMEIRA OPORTUNIDADE -->
+    <section id="oportunidade" class="reveal">
+        <h2 class="section-title">Sua Primeira <span>Oportunidade</span></h2>
+        <p class="section-subtitle">O ingresso no mercado de trabalho exige muita preparação. Faça projetos, organize seus scripts, construa laboratórios e comece a testar os seus conhecimentos em um ambiente real.</p>
+
+        <div class="grid">
+            <div class="card">
+                <h4 style="color: var(--primary-cyan);">01. Refatore seu currículo</h4>
+                <p>Destaque sua formação acadêmica, cursos, certificações e stack tecnológica, mesmo sem experiência profissional prévia.</p>
+            </div>
+            <div class="card">
+                <h4 style="color: var(--primary-cyan);">02. Faça a publicação de um portfólio</h4>
+                <p>Crie uma landing page simples, construa uma API ou documente a resolução de um problema utilizando código.</p>
+            </div>
+            <div class="card">
+                <h4 style="color: var(--primary-cyan);">03. Domine o GitHub</h4>
+                <p>Armazene seus projetos (commits), faça versionamento de código e interaja com a comunidade open-source.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOBRE O PROJETO -->
+    <section id="sobre" class="reveal" style="background: rgba(255,255,255,0.01);">
+        <h2 class="section-title">Sobre o <span>Portal ADS</span></h2>
+        <p class="section-subtitle">Uma iniciativa focada na inclusão digital e na educação de qualidade, desenvolvida para orientar e facilitar o acesso à informação sobre tecnologia.</p>
+        
+        <div style="text-align: center; max-width: 800px; margin: 0 auto; background: var(--bg-panel); padding: 40px; border-radius: 12px; border: 1px solid var(--primary-purple); box-shadow: 0 0 30px rgba(138, 43, 226, 0.1);">
+            <h3 style="color: white; margin-bottom: 20px; font-size: 1.5rem;">🌍 Educação de Qualidade</h3>
+            <p style="color: var(--text-muted); font-size: 1.05rem;">Este projeto relaciona-se com o Objetivo de Desenvolvimento Sustentável da ONU, que busca garantir o acesso à educação inclusiva, equitativa e de qualidade, promovendo a melhoria contínua e oportunidades de aprendizagem para todos.</p>
+        </div>
+    </section>
+
+    <footer>
+        <p>Portal ADS - Carreiras e Oportunidades em Tecnologia | Promovendo a Inclusão Digital.</p>
+    </footer>
+
+    <!-- Efeitos visuais  -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            
+            // 1. Efeito Scroll Reveal 
+            const revealElements = document.querySelectorAll(".reveal");
+            
+            const revealObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("active");
+                    }
+                });
+            }, {
+                root: null,
+                threshold: 0.15 // 
+            });
+
+            revealElements.forEach(el => revealObserver.observe(el));
+
+            // 2. ScrollSpy Ativo no Menu (Sublinha a secção atual de ciano)
+            const sections = document.querySelectorAll("section");
+            const navLinks = document.querySelectorAll(".nav-link");
+
+            window.addEventListener("scroll", () => {
+                let current = "";
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    // Se o scroll passou do topo da secção
+                    if (pageYOffset >= (sectionTop - 200)) {
+                        current = section.getAttribute("id");
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove("active-link");
+                    if (link.getAttribute("href").includes(current)) {
+                        link.classList.add("active-link");
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
